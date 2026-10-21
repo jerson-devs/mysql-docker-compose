@@ -1,0 +1,25 @@
+services:
+  bdmysql-compose:
+    container_name: bdmysql-compose
+    image: mysql:8.4
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+    ports:
+      - "3333:3306"
+
+  phpmyadmin-compose:
+    container_name: phpmyadmin-compose
+    image: phpmyadmin
+    depends_on:
+      - bdmysql-compose
+    ports:
+      - 8081:80
+    environment:
+      PMA_HOST: bdmysql-compose
+      PMA_PORT: 3306
+      PMA_USER: root
+      PMA_PASSWORD: 123456
+
+
+# docker container run  --name=bdmysql1 -e MYSQL_ROOT_PASSWORD=123456 -p 3308:3306 mysql:8.4
+# docker container run  --name=php-ma1 --link bdmysql1:db -d -p 8080:80 phpmyadmin
